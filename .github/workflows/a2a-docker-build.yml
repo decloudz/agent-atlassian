@@ -8,7 +8,7 @@ on:
       - 'v*'
 
 env:
-  IMAGE_NAME: decloudz/agent-argocd
+  IMAGE_NAME: decloudz/agent-atlassian
 
 jobs:
   build-and-push:
