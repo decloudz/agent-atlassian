@@ -15,7 +15,7 @@ from a2a.utils import new_agent_text_message, new_task, new_text_artifact
 
 
 class AtlassianAgentExecutor(AgentExecutor):
-    """Currency AgentExecutor Example."""
+    """Atlassian AgentExecutor following the working ArgoCD pattern."""
 
     def __init__(self):
         self.agent = AtlassianAgent()
@@ -35,6 +35,7 @@ class AtlassianAgentExecutor(AgentExecutor):
         if not task:
             task = new_task(context.message)
             event_queue.enqueue_event(task)
+        
         # invoke the underlying agent, using streaming results
         async for event in self.agent.stream(query, task.contextId):
             if event['is_task_complete']:

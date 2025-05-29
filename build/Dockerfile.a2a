@@ -4,18 +4,20 @@ WORKDIR /app
 
 COPY . /app/
 
-# Install uv and use it to install the package
+# Install uv and poetry
 RUN pip install uv poetry
 
+# Configure poetry for in-project venv
 RUN poetry config virtualenvs.create true
 RUN poetry config virtualenvs.in-project true
 RUN poetry config cache-dir /app/.cache
 RUN poetry config virtualenvs.path /app/.venv
 
+# Build and install the package with all dependencies
 RUN poetry build
-
 RUN poetry install --no-interaction
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "python", "-m", "agent_atlassian", "--host", "0.0.0.0", "--port", "8000"]
+# Run the Python script directly instead of using -m flag
+CMD ["/app/.venv/bin/python", "/app/agent_atlassian/__main__.py", "--host", "0.0.0.0", "--port", "8000"]

@@ -178,8 +178,8 @@ run-docker-acp: ## Run the ACP agent in Docker
 # Run Docker container for A2A agent
 
 run-docker-a2a: ## Run the A2A agent in Docker
-	@A2A_AGENT_PORT=$$(grep A2A_AGENT_PORT .env | cut -d '=' -f2); \
-	LOCAL_A2A_AGENT_IMAGE=$${A2A_AGENT_IMAGE:-ghcr.io/decloudz/$(AGENT_DIR_NAME):a2a-latest}; \
+	@A2A_AGENT_PORT=$$(grep A2A_AGENT_PORT .env 2>/dev/null | cut -d '=' -f2 || echo ""); \
+	LOCAL_A2A_AGENT_IMAGE=$${A2A_AGENT_IMAGE:-$(AGENT_DIR_NAME):a2a-latest}; \
 	LOCAL_A2A_AGENT_PORT=$${A2A_AGENT_PORT:-8000}; \
 	echo "==================================================================="; \
 	echo "                      A2A AGENT DOCKER RUN                         "; \
