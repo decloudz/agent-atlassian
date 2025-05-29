@@ -14,7 +14,7 @@
   "locators": [
     {
       "type": "docker-image",
-      "url": "ghcr.io/cnoe-io/agent-atlassian:latest"
+      "url": "ghcr.io/decloudz/agent-atlassian:latest"
     },
     {
       "type": "source-code",

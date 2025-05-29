@@ -124,13 +124,13 @@ evals:             ## Run agentevals with test cases
 ## ========== Docker ==========
 
 build-docker-acp:            ## Build ACP Docker image
-	docker build -t $(AGENT_DIR_NAME):acp-latest -f build/Dockerfile.acp .
+	docker build --build-arg AGENT_NAME=$(AGENT_NAME) -t $(AGENT_DIR_NAME):acp-latest -f build/Dockerfile.acp .
 
 build-docker-acp-tag:        ## Tag ACP Docker image
-	docker tag $(AGENT_DIR_NAME):acp-latest ghcr.io/cnoe-io/$(AGENT_DIR_NAME):acp-latest
+	docker tag $(AGENT_DIR_NAME):acp-latest ghcr.io/decloudz/$(AGENT_DIR_NAME):acp-latest
 
 build-docker-acp-push:       ## Push ACP Docker image
-	docker push ghcr.io/cnoe-io/$(AGENT_DIR_NAME):acp-latest
+	docker push ghcr.io/decloudz/$(AGENT_DIR_NAME):acp-latest
 
 build-docker-acp-tag-and-push: ## Tag and push ACP Docker image
 	@$(MAKE) build-docker-acp build-docker-acp-tag build-docker-acp-push
@@ -139,10 +139,10 @@ build-docker-a2a:            ## Build A2A Docker image
 	docker build -t $(AGENT_DIR_NAME):a2a-latest -f build/Dockerfile.a2a .
 
 build-docker-a2a-tag:        ## Tag A2A Docker image
-	docker tag $(AGENT_DIR_NAME):a2a-latest ghcr.io/cnoe-io/$(AGENT_DIR_NAME):a2a-latest
+	docker tag $(AGENT_DIR_NAME):a2a-latest ghcr.io/decloudz/$(AGENT_DIR_NAME):a2a-latest
 
 build-docker-a2a-push:       ## Push A2A Docker image
-	docker push ghcr.io/cnoe-io/$(AGENT_DIR_NAME):a2a-latest
+	docker push ghcr.io/decloudz/$(AGENT_DIR_NAME):a2a-latest
 
 build-docker-a2a-tag-and-push: ## Tag and push A2A Docker image
 	@$(MAKE) build-docker-a2a build-docker-a2a-tag build-docker-a2a-push
@@ -153,7 +153,7 @@ run-docker-acp: ## Run the ACP agent in Docker
 	AGENT_PORT=$$(grep CNOE_AGENT_$$(echo $(AGENT_NAME) | tr a-z A-Z)_PORT .env | cut -d '=' -f2); \
 	ACP_AGENT_IMAGE=$$(grep ACP_AGENT_IMAGE .env | cut -d '=' -f2 || echo ""); \
 	LOCAL_AGENT_PORT=$${AGENT_PORT:-10000}; \
-	LOCAL_AGENT_IMAGE=$${ACP_AGENT_IMAGE:-ghcr.io/cnoe-io/$(AGENT_DIR_NAME):acp-latest}; \
+	LOCAL_AGENT_IMAGE=$${ACP_AGENT_IMAGE:-ghcr.io/decloudz/$(AGENT_DIR_NAME):acp-latest}; \
 	echo "========================================================================"; \
 	echo "==                     ACP AGENT DOCKER RUN                           =="; \
 	echo "========================================================================"; \
@@ -179,7 +179,7 @@ run-docker-acp: ## Run the ACP agent in Docker
 
 run-docker-a2a: ## Run the A2A agent in Docker
 	@A2A_AGENT_PORT=$$(grep A2A_AGENT_PORT .env | cut -d '=' -f2); \
-	LOCAL_A2A_AGENT_IMAGE=$${A2A_AGENT_IMAGE:-ghcr.io/cnoe-io/$(AGENT_DIR_NAME):a2a-latest}; \
+	LOCAL_A2A_AGENT_IMAGE=$${A2A_AGENT_IMAGE:-ghcr.io/decloudz/$(AGENT_DIR_NAME):a2a-latest}; \
 	LOCAL_A2A_AGENT_PORT=$${A2A_AGENT_PORT:-8000}; \
 	echo "==================================================================="; \
 	echo "                      A2A AGENT DOCKER RUN                         "; \
