@@ -29,6 +29,7 @@ dependencies = [
     "uv",
     "rich (>=14.0.0,<15.0.0)",
     "sseclient (>=0.0.27,<0.0.28)",
+    "httpx-sse>=0.4.0",
 ]
 [tool.hatch.build.targets.wheel]
 packages = ["."]

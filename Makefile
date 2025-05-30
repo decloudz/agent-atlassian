@@ -187,8 +187,26 @@ run-docker-a2a: ## Run the A2A agent in Docker
 	echo "Using Agent Image: $$LOCAL_A2A_AGENT_IMAGE"; \
 	echo "Using Agent Port: $$LOCAL_A2A_AGENT_PORT"; \
 	echo "==================================================================="; \
-	docker run -p $$LOCAL_A2A_AGENT_PORT:8000 -it \
-		$$LOCAL_A2A_AGENT_IMAGE
+	if [ -f ".env" ]; then \
+		echo "Loading environment variables from .env file..."; \
+		docker run -p $$LOCAL_A2A_AGENT_PORT:8000 -it \
+			--env-file .env \
+			$$LOCAL_A2A_AGENT_IMAGE; \
+	else \
+		echo "No .env file found, running with system environment variables..."; \
+		docker run -p $$LOCAL_A2A_AGENT_PORT:8000 -it \
+			-e GOOGLE_API_KEY="$$GOOGLE_API_KEY" \
+			-e LLM_PROVIDER="$$LLM_PROVIDER" \
+			-e AZURE_OPENAI_API_KEY="$$AZURE_OPENAI_API_KEY" \
+			-e AZURE_OPENAI_ENDPOINT="$$AZURE_OPENAI_ENDPOINT" \
+			-e AZURE_OPENAI_DEPLOYMENT="$$AZURE_OPENAI_DEPLOYMENT" \
+			-e AZURE_OPENAI_API_VERSION="$$AZURE_OPENAI_API_VERSION" \
+			-e OPENAI_API_KEY="$$OPENAI_API_KEY" \
+			-e ATLASSIAN_TOKEN="$$ATLASSIAN_TOKEN" \
+			-e ATLASSIAN_API_URL="$$ATLASSIAN_API_URL" \
+			-e ATLASSIAN_VERIFY_SSL="$$ATLASSIAN_VERIFY_SSL" \
+			$$LOCAL_A2A_AGENT_IMAGE; \
+	fi
 
 ## ========== Tests ==========
 
